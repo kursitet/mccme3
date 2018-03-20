@@ -51,6 +51,10 @@ body .xmodule_display.xmodule_CapaModule .problem .inputtype.option-input {
     margin-top: 0;
 }
 
+body .xmodule_display.xmodule_CapaModule div.problem div p.answer::before {
+    content: "Ответ: ";
+}
+
 
 /* PROGRESS section */
 .digit-b {
