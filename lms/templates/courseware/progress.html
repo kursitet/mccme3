@@ -342,7 +342,7 @@ reverse_score_proc = 100 - score_proc
                                                                 %if len(section.problem_scores.values()) > 0:
                                                                     <div class="col-12 ml-sm-auto col-sm-9">
                                                                         <div class="progress_subsection_name">
-                                                                            ${ section.display_name}
+                                                                            ${section.display_name.replace(u'&nbsp;',u'\u00a0')}
                                                                         </div>
                                                                         <div class="progress_subsection_result">
                                                                             %if section.show_grades(staff_access):                                                                
