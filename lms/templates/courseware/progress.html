@@ -272,11 +272,25 @@ reverse_score_proc = 100 - score_proc
                     course_chapters.append(ch.to_deprecated_string())
                 %>
                 
+                ##let's find out the weight for each possible category
+                <%
+                category_info = {}
+                for some_category in grade_summary['section_breakdown']:
+                    if some_category['category'] not in category_info:
+                        category_info[some_category['category']] = {'count': 1}
+                    elif not 'prominent' in some_category or not some_category['prominent']:
+                        category_info[some_category['category']]['count'] += 1
+                
+                for category_type in grade_summary['grade_breakdown']:
+                    if category_type in category_info:
+                        category_info[category_type]['weight'] = (grade_summary['grade_breakdown'][category_type]['weight']) / (category_info[category_type]['count'])
+                %>
+                
                 <section class="chapters">
                     %for chapter in courseware_summary:
                         %if not chapter['display_name'] == "hidden":
                             <%
-                            show_section    = False
+                            show_chapter    = False
                             chapter_percent = 0
                             chapter_weight  = 0
                             progress_sections = {}
@@ -292,24 +306,22 @@ reverse_score_proc = 100 - score_proc
                                     break
                             
                                 if len(section.problem_scores.values()) > 0:
-                                    show_section = True
+                                    show_chapter = True
                                     
-                                    #let's count total score and weight for chapter and sections inside it
+                                    #let's count total score and weight for chapter and sections inside of it
                                     if section.format is not None and section.format in grade_summary['grade_breakdown']:
                                         earned = section.all_total.earned
                                         total  = section.all_total.possible
-                                        _section_weight = grade_summary['grade_breakdown'][section.format]['weight']
+                                        _section_weight = category_info[section.format]['weight']
                                         _section_percent = (_section_weight*float(earned)/total) if earned > 0 and total > 0 and _section_weight > 0 else 0
 
                                         chapter_percent += _section_percent
                                         chapter_weight  += _section_weight
                                         
                                         progress_sections[section.url_name] = {'percent': _section_percent, 'weight': _section_weight}
-                                        
-
                             %>
 
-                            %if show_section:
+                            %if show_chapter:
                                 <div class="chapter_item">
                                     <div class="row">
                                         <div class="col-12">
