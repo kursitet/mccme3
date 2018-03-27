@@ -88,7 +88,6 @@ reverse_score_proc = 100 - score_proc
                     width = 100
                     found = False
                     
-                    #print grade_sections
                     for key, item in enumerate(grade_sections):
                         old_width = width
                         width = item[1] * 100
@@ -99,8 +98,9 @@ reverse_score_proc = 100 - score_proc
                         gs.append({'name': item[0], 'marker': width, 'bg': backgrounds[key], 'range': range})
 
                         if not found:
-                            if score_proc > width:
+                            if score_proc >= width:
                                 bg_earned = backgrounds[key]
+                                label_earned = item[0]
                                 found = True
                             else:
                                 bg_earned = backgrounds[key + 1]
@@ -114,12 +114,12 @@ reverse_score_proc = 100 - score_proc
                     range = '0 - %d' % (range_backward(width),)
                     gs.append({'name': 'Незачет', 'marker': False, 'bg': backgrounds[len(gs)], 'range': range})
                 %>                
-
+                
                 <div class="digit-b">
                     <div class="digit-b-item-label">Набрано</div>
                     <div class="digit-b-item" style="color: ${bg_earned};">${score_proc}%</div>
                     % if ex_pass:
-                        <div class="digit-b-pass" style="color: ${bg_earned};">${gs[0]['name'].upper()}</div>
+                        <div class="digit-b-pass" style="color: ${bg_earned};">${label_earned}</div>
                     %endif
                 </div>
             
