@@ -313,7 +313,7 @@ reverse_score_proc = 100 - score_proc
                                         chapter_percent += _section_percent
                                         chapter_weight  += _section_weight
                                         
-                                        progress_sections[section.url_name] = {'earned': earned, 'total': total, 'percent': _section_percent, 'weight': _section_weight}
+                                        progress_sections[section.url_name] = {'percent': _section_percent, 'weight': _section_weight}
                             %>
 
                             %if show_chapter:
@@ -331,6 +331,11 @@ reverse_score_proc = 100 - score_proc
                                                     </div>
                                                     <div class="sections progress_subsections">
                                                         %for section in chapter['sections']:
+                                                            <%
+                                                                earned = section.all_total.earned
+                                                                total = section.all_total.possible
+                                                            %>
+                                                        
                                                             <div class="row">
                                                                 %if len(section.problem_scores.values()) > 0:
                                                                     <div class="col-12 ml-sm-auto col-sm-9">
@@ -338,12 +343,8 @@ reverse_score_proc = 100 - score_proc
                                                                             <a href="${reverse('courseware_section', kwargs=dict(course_id=course.id.to_deprecated_string(), chapter=chapter['url_name'], section=section.url_name))}">
                                                                             ${section.display_name.replace(u'&nbsp;',u'\u00a0')}
                                                                             </a>
-                                                                            %if section.url_name in progress_sections:
-                                                                                <span>
-                                                                                    ${"({0:.3n}/{1:.3n})".format( 
-                                                                                        float(progress_sections[section.url_name]['earned']), float(progress_sections[section.url_name]['total']) )
-                                                                                     }
-                                                                                </span>
+                                                                            %if total > 0 or earned > 0:
+                                                                                <span> ${"({0:.3n}/{1:.3n})".format( float(earned), float(total) )}</span>
                                                                             %endif
                                                                         </div>
                                                                         <div class="progress_subsection_result">
