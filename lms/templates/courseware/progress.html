@@ -338,7 +338,13 @@ reverse_score_proc = 100 - score_proc
                                                                             <a href="${reverse('courseware_section', kwargs=dict(course_id=course.id.to_deprecated_string(), chapter=chapter['url_name'], section=section.url_name))}">
                                                                             ${section.display_name.replace(u'&nbsp;',u'\u00a0')}
                                                                             </a>
-                                                                            <span> ${"({0:.3n}/{1:.3n})".format( float(progress_sections[section.url_name]['earned']), float(progress_sections[section.url_name]['total']) )}</span>
+                                                                            %if section.url_name in progress_sections:
+                                                                                <span>
+                                                                                    ${"({0:.3n}/{1:.3n})".format( 
+                                                                                        float(progress_sections[section.url_name]['earned']), float(progress_sections[section.url_name]['total']) )
+                                                                                     }
+                                                                                </span>
+                                                                            %endif
                                                                         </div>
                                                                         <div class="progress_subsection_result">
                                                                             %if section.show_grades(staff_access):                                                                
