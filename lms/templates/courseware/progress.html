@@ -15,11 +15,6 @@ from lms.djangoapps.grades.new.course_grade_factory import CourseGradeFactory
 %>
 
 <%
-## getting course url
-from openedx.features.course_experience import default_course_url_name
-course_url_name = default_course_url_name(course.id)
-course_url = reverse(course_url_name, kwargs={'course_id': unicode(course.id)})
-
 ## collect score, max score
 score_proc = int(100*grade_summary['percent'])
 reverse_score_proc = 100 - score_proc
@@ -318,7 +313,7 @@ reverse_score_proc = 100 - score_proc
                                         chapter_percent += _section_percent
                                         chapter_weight  += _section_weight
                                         
-                                        progress_sections[section.url_name] = {'percent': _section_percent, 'weight': _section_weight}
+                                        progress_sections[section.url_name] = {'earned': earned, 'total': total, 'percent': _section_percent, 'weight': _section_weight}
                             %>
 
                             %if show_chapter:
@@ -326,26 +321,12 @@ reverse_score_proc = 100 - score_proc
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="chapter_item_box chapter_title" id="chapter_${loop.index}">
-                                                <%
-                                                chapter_id = ''
-                                                ##findit = 'block@%s' % chapter['url_name']
-                                                for ch in course_chapters:
-                                                    if ch.endswith(chapter['url_name']):
-                                                        chapter_id = ch
-                                                        break
-                                                %>
-                                                %if chapter_id:
-                                                    <a href="${course_url}#${chapter_id}">${chapter['display_name']}</a>
-                                                %else:
-                                                    ${chapter['display_name']}
-                                                %endif
-                                                
                                                 %if not appeal:
                                                     <input type="checkbox" id="box_${loop.index}">
-                                                    <label for="box_${loop.index}"></label>
+                                                    <label for="box_${loop.index}"><span class="chapter_display_name">${chapter['display_name']}</span></label>
                                                     <div class="chapter_score">
                                                         %if chapter_weight:
-                                                            ${("Набрано {earned} из {total}").format(earned='{0:.2%}'.format(chapter_percent), total='{0:.2%}'.format(chapter_weight)) | h}
+                                                            ${("Набрано {earned} из {total}").format(earned='{0:.1%}'.format(chapter_percent), total='{0:.1%}'.format(chapter_weight)) | h}
                                                         %endif
                                                     </div>
                                                     <div class="sections progress_subsections">
@@ -354,7 +335,10 @@ reverse_score_proc = 100 - score_proc
                                                                 %if len(section.problem_scores.values()) > 0:
                                                                     <div class="col-12 ml-sm-auto col-sm-9">
                                                                         <div class="progress_subsection_name">
+                                                                            <a href="${reverse('courseware_section', kwargs=dict(course_id=course.id.to_deprecated_string(), chapter=chapter['url_name'], section=section.url_name))}">
                                                                             ${section.display_name.replace(u'&nbsp;',u'\u00a0')}
+                                                                            </a>
+                                                                            <span> ${"({0:.3n}/{1:.3n})".format( float(progress_sections[section.url_name]['earned']), float(progress_sections[section.url_name]['total']) )}</span>
                                                                         </div>
                                                                         <div class="progress_subsection_result">
                                                                             %if section.show_grades(staff_access):                                                                
@@ -384,7 +368,7 @@ reverse_score_proc = 100 - score_proc
                                                                     </div>
                                                                     <div class="col-12 ml-sm-auto col-sm-3">
                                                                         %if section.format is not None and section.url_name in progress_sections:
-                                                                            ${("{earned} из {total}").format(earned='{0:.2%}'.format(progress_sections[section.url_name]['percent']), total='{0:.2%}'.format(progress_sections[section.url_name]['weight'])) | h}
+                                                                            ${("{earned} из {total}").format(earned='{0:.1%}'.format(progress_sections[section.url_name]['percent']), total='{0:.1%}'.format(progress_sections[section.url_name]['weight'])) | h}
                                                                         %endif
                                                                     </div>                                                                
                                                                 %endif
@@ -392,6 +376,7 @@ reverse_score_proc = 100 - score_proc
                                                         %endfor
                                                     </div>
                                                 %else:
+                                                    ${chapter['display_name']}
                                                     <div class="chapter_score">
                                                         ${("{earned}").format(earned='{0:.0%}'.format(chapter_percent)) | h}
                                                     </div>                                                    
