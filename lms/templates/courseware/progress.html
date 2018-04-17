@@ -18,6 +18,11 @@ from lms.djangoapps.grades.new.course_grade_factory import CourseGradeFactory
 ## collect score, max score
 score_proc = int(100*grade_summary['percent'])
 reverse_score_proc = 100 - score_proc
+
+## TODO XXX
+level_grade = False
+if 'level_grade' in grade_summary:
+    level_grade = grade_summary['level_grade']
 %>
 
 <%block name="bodyclass">view-in-course view-progress</%block>
@@ -308,12 +313,18 @@ reverse_score_proc = 100 - score_proc
                                         earned = section.all_total.earned
                                         total  = section.all_total.possible
                                         _section_weight = category_info[section.format]['weight']
-                                        _section_percent = (_section_weight*float(earned)/total) if earned > 0 and total > 0 and _section_weight > 0 else 0
+                                        _section_percent = (_section_weight*float(earned/total)) if earned > 0 and total > 0 and _section_weight > 0 else 0
+                                        
+                                        _level_grade_percent = float(earned/total) if earned > 0 and total > 0 else 0
+                                        if _level_grade_percent >= 0.7:
+                                            _level_grade_text = u'Зачтено'
+                                        else: 
+                                            _level_grade_text = ''
 
                                         chapter_percent += _section_percent
                                         chapter_weight  += _section_weight
                                         
-                                        progress_sections[section.url_name] = {'percent': _section_percent, 'weight': _section_weight}
+                                        progress_sections[section.url_name] = {'percent': _section_percent, 'weight': _section_weight, 'level_grade': _level_grade_text}
                             %>
 
                             %if show_chapter:
@@ -325,7 +336,7 @@ reverse_score_proc = 100 - score_proc
                                                     <input type="checkbox" id="box_${loop.index}">
                                                     <label for="box_${loop.index}"><span class="chapter_display_name">${chapter['display_name']}</span></label>
                                                     <div class="chapter_score">
-                                                        %if chapter_weight:
+                                                        %if not level_grade and chapter_weight:
                                                             ${("Набрано {earned} из {total}").format(earned='{0:.1%}'.format(chapter_percent), total='{0:.1%}'.format(chapter_weight)) | h}
                                                         %endif
                                                     </div>
@@ -375,7 +386,11 @@ reverse_score_proc = 100 - score_proc
                                                                     </div>
                                                                     <div class="col-12 ml-sm-auto col-sm-3">
                                                                         %if section.format is not None and section.url_name in progress_sections:
-                                                                            ${("{earned} из {total}").format(earned='{0:.1%}'.format(progress_sections[section.url_name]['percent']), total='{0:.1%}'.format(progress_sections[section.url_name]['weight'])) | h}
+                                                                            %if level_grade:
+                                                                                ${progress_sections[section.url_name]['level_grade']}
+                                                                            %else:
+                                                                                ${("{earned} из {total}").format(earned='{0:.1%}'.format(progress_sections[section.url_name]['percent']), total='{0:.1%}'.format(progress_sections[section.url_name]['weight'])) | h}
+                                                                            %endif
                                                                         %endif
                                                                     </div>                                                                
                                                                 %endif
