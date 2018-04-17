@@ -78,8 +78,8 @@ if 'level_grade' in grade_summary:
                     def range_backward(width):
                         width = int(width)
                         if width < 100:
-                            return width - 1
-                        return width
+                            return "%d)" % width
+                        return "%d]" % width
                 
                     #backgrounds = ['#4fe696', '#ffdf7e', '#ffb657', '#ef54a1', '#fb336c']
                     backgrounds = ['#61d836', '#ffdf7e', '#ffb657', '#ef54a1', '#fb336c']
@@ -92,9 +92,9 @@ if 'level_grade' in grade_summary:
                         old_width = width
                         width = item[1] * 100
                         if item == grade_sections[:-1]:
-                            range = '0 - %d' % (range_backward(width),)
+                            range = '[0 - %s' % (range_backward(width),)
                         else:
-                            range = '%d - %d' % (width, range_backward(old_width))
+                            range = '[%d - %s' % (width, range_backward(old_width))
                         gs.append({'name': item[0], 'marker': width, 'bg': backgrounds[key], 'range': range})
 
                         if not found:
@@ -111,7 +111,7 @@ if 'level_grade' in grade_summary:
                         ex_pass = True
                     
                     # what to do with the last element?
-                    range = '0 - %d' % (range_backward(width),)
+                    range = '[0 - %s' % (range_backward(width),)
                     gs.append({'name': 'Незачет', 'marker': False, 'bg': backgrounds[len(gs)], 'range': range})
                 %>                
                 
@@ -160,7 +160,7 @@ if 'level_grade' in grade_summary:
                                     <div class="grade-legend">
                                         <div class="grade-legend-item" style="background: ${item['bg']};"></div>
                                         <span class="letter-grade">${item['name']}</span>
-                                        <span class="range">(${item['range']})</span>
+                                        <span class="range">${item['range']}</span>
                                     </div>
                                 %endfor
                             </div>
