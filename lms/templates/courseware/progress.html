@@ -287,7 +287,7 @@ if 'level_grade' in grade_summary:
                 %>
                 
                 <section class="chapters">
-                    %for chapter in courseware_summary:
+                    %for key, chapter in enumerate(courseware_summary):
                         %if not chapter['display_name'] == "hidden":
                             <%
                             show_chapter    = False
@@ -333,7 +333,7 @@ if 'level_grade' in grade_summary:
                                         <div class="col-12">
                                             <div class="chapter_item_box chapter_title" id="chapter_${loop.index}">
                                                 %if not appeal:
-                                                    <input type="checkbox" id="box_${loop.index}">
+                                                    <input type="checkbox" id="box_${loop.index}" ${'checked="checked"' if not key and level_grade else ''}>
                                                     <label for="box_${loop.index}"><span class="chapter_display_name">${chapter['display_name']}</span></label>
                                                     <div class="chapter_score">
                                                         %if not level_grade and chapter_weight:
