@@ -4,6 +4,8 @@
 <%def name="online_help_token()"><% return "progress" %></%def>
 <%!
 import operator
+from decimal import Decimal
+from decimal import getcontext
 from course_modes.models import CourseMode
 from certificates.models import CertificateStatuses
 from django.utils.translation import ugettext as _
@@ -15,8 +17,11 @@ from lms.djangoapps.grades.new.course_grade_factory import CourseGradeFactory
 %>
 
 <%
+##set Decimal output size
+getcontext().prec = 2
+
 ## collect score, max score
-score_proc = int(100*grade_summary['percent'])
+score_proc = int(100*Decimal(grade_summary['percent']))
 reverse_score_proc = 100 - score_proc
 
 ## TODO XXX
