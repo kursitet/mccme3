@@ -188,6 +188,15 @@ $i: 0;
     text-align: right;
 }
 
+.section_dropped {
+    text-decoration:line-through;
+    color: red;
+}
+
+.dropped_info{
+    font-size: 0.6em;
+}
+
 /* Toggle List */
 /* SCSS Variables & Mixins */ 
 .chapters {
