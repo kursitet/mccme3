@@ -5,6 +5,7 @@
   from django.utils.translation import ugettext as _
   from branding.api import get_footer
   from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+  from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 <% footer = get_footer(is_secure=is_secure) %>
 <%namespace name='static' file='static_content.html'/>
@@ -36,7 +37,11 @@
         </nav>
 
         ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-        <p class="copyright">${footer['copyright']}</p>
+        ## <p class="copyright">${footer['copyright']}</p>
+        <p class="copyright">${u"© {org_name}. Все права защищены.".format(org_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME))}
+            <br/>
+            Powered by <a href="https://open.edx.org/">Open edX</a>
+        </p>
     </div>
     </div>
 </footer>
