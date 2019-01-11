@@ -277,20 +277,6 @@ if 'level_grade' in grade_summary:
                     course_chapters.append(ch.to_deprecated_string())
                 %>
                 
-                ##let's find out the weight for each possible category
-                <%
-                category_info = {}
-                for some_category in grade_summary['section_breakdown']:
-                    if some_category['category'] not in category_info:
-                        category_info[some_category['category']] = {'count': 1}
-                    elif not 'prominent' in some_category or not some_category['prominent']:
-                        category_info[some_category['category']]['count'] += 1
-                
-                for category_type in grade_summary['grade_breakdown']:
-                    if category_type in category_info:
-                        category_info[category_type]['weight'] = (grade_summary['grade_breakdown'][category_type]['weight']) / (category_info[category_type]['count'])
-                %>
-                
                 <section class="chapters">
                     %for key, chapter in enumerate(courseware_summary):
                         %if not chapter['display_name'] == "hidden":
@@ -317,19 +303,33 @@ if 'level_grade' in grade_summary:
                                     if section.format is not None and section.format in grade_summary['grade_breakdown']:
                                         earned = section.all_total.earned
                                         total  = section.all_total.possible
-                                        _section_weight = category_info[section.format]['weight']
-                                        _section_percent = (_section_weight*float(earned/total)) if earned > 0 and total > 0 and _section_weight > 0 else 0
+
+                                        _section_weight  = 0
+                                        _section_percent = 0
+                                        _section_dropped = False
+                                        
+                                        for s in grade_summary['section_breakdown']:
+                                            if 'url_name' in s and s['url_name'] == section.url_name:
+                                                _section_weight  = s['weight']
+                                                _section_percent = s['weight_percent']
+                                                if 'dropped' in s and s['dropped']:
+                                                    _section_dropped = True
+                                                break
                                         
                                         _level_grade_percent = float(earned/total) if earned > 0 and total > 0 else 0
                                         if _level_grade_percent >= 0.7:
                                             _level_grade_text = u'Зачтено'
-                                        else: 
+                                        else:
                                             _level_grade_text = ''
 
-                                        chapter_percent += _section_percent
-                                        chapter_weight  += _section_weight
+                                        if not _section_dropped:
+                                            chapter_percent += _section_percent
+                                            chapter_weight  += _section_weight
                                         
-                                        progress_sections[section.url_name] = {'percent': _section_percent, 'weight': _section_weight, 'level_grade': _level_grade_text}
+                                        progress_sections[section.url_name] = {
+                                            'percent': _section_percent, 'weight': _section_weight,
+                                            'level_grade': _level_grade_text, 'section_dropped': _section_dropped
+                                        }
                             %>
 
                             %if show_chapter:
@@ -364,7 +364,7 @@ if 'level_grade' in grade_summary:
                                                                             %endif
                                                                         </div>
                                                                         <div class="progress_subsection_result">
-                                                                            %if section.show_grades(staff_access):                                                                
+                                                                            %if section.show_grades(staff_access):
                                                                             <dl class="scores">
                                                                                 %for score in section.problem_scores.values():
                                                                                     <dd>${"{0:.3n}/{1:.3n}".format(float(score.earned),float(score.possible))}</dd>
@@ -394,10 +394,16 @@ if 'level_grade' in grade_summary:
                                                                             %if level_grade:
                                                                                 ${progress_sections[section.url_name]['level_grade']}
                                                                             %else:
+                                                                                <% dropped = progress_sections[section.url_name]['section_dropped'] %>
+                                                                                <div ${'class=section_dropped' if dropped else ''}>
                                                                                 ${("{earned} из {total}").format(earned='{0:.1%}'.format(progress_sections[section.url_name]['percent']), total='{0:.1%}'.format(progress_sections[section.url_name]['weight'])) | h}
+                                                                                </div>
+                                                                                %if dropped:
+                                                                                    <div class="dropped_info">в зачёт идут лучшие результаты</div>
+                                                                                %endif
                                                                             %endif
                                                                         %endif
-                                                                    </div>                                                                
+                                                                    </div>
                                                                 %endif
                                                             </div>
                                                         %endfor
@@ -406,7 +412,7 @@ if 'level_grade' in grade_summary:
                                                     ${chapter['display_name']}
                                                     <div class="chapter_score">
                                                         ${("{earned}").format(earned='{0:.0%}'.format(chapter_percent)) | h}
-                                                    </div>                                                    
+                                                    </div>
                                                 %endif
                                             </div>
                                         </div>
