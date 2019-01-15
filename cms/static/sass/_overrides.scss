@@ -34,3 +34,8 @@
 .xmodule_display.xmodule_CapaModule .problem .inputtype.option-input {
     margin-top: 0px;
 }
+
+/* CodeMirror */
+.CodeMirror-code span.cm-tab {
+    background: red;
+}

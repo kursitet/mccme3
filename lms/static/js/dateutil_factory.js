@@ -43,7 +43,7 @@
                     let df_format;
                     let _df_format = $(this).data('format');
                     if (!_df_format || _df_format == 'None'){
-                        df_format = 'DD.MM.YYYY, HH[:]mm (z)'; // day Month year, time МСК
+                        df_format = 'DD.MM.YYYY, HH[:]mm (zz)'; // day Month year, time МСК
                     }else{
                         df_format = DateUtils.dateFormatEnum[_df_format]
                     }
