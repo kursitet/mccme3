@@ -55,6 +55,9 @@ body .xmodule_display.xmodule_CapaModule div.problem div p.answer::before {
     content: "Ответ: ";
 }
 
+.problem legend {
+    font-size: inherit;
+}
 
 /* PROGRESS section */
 .digit-b {
@@ -79,7 +82,7 @@ body .xmodule_display.xmodule_CapaModule div.problem div p.answer::before {
     font-size: 0.55em;
     position: absolute;
     bottom:0;
-    right: 0;    
+    right: 0;
 }
 
 #main-progress-bar-striped-version2{
