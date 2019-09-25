@@ -71,7 +71,7 @@ if 'level_grade' in grade_summary:
                     <a class="instructor-info-action studio-view" href="${studio_url}">${_("View Grading in studio")}</a>
                 </div>
                 % endif
-                
+
                 ## oleg2106 hide title
                 % if false:
                     <h2 class="hd hd-2 progress-certificates-title">
@@ -85,14 +85,14 @@ if 'level_grade' in grade_summary:
                         if width < 100:
                             return "%d)" % width
                         return "%d]" % width
-                
+
                     #backgrounds = ['#4fe696', '#ffdf7e', '#ffb657', '#ef54a1', '#fb336c']
                     backgrounds = ['#61d836', '#ffdf7e', '#ffb657', '#ef54a1', '#fb336c']
                     grade_sections = sorted(course.grade_cutoffs.items(), key=operator.itemgetter(1), reverse=True)
                     gs = []
                     width = 100
                     found = False
-                    
+
                     for key, item in enumerate(grade_sections):
                         old_width = width
                         width = item[1] * 100
@@ -109,17 +109,17 @@ if 'level_grade' in grade_summary:
                                 found = True
                             else:
                                 bg_earned = backgrounds[key + 1]
-                                
+
                     #do we pass the exam?
                     ex_pass = False
                     if bg_earned != backgrounds[len(gs)]:
                         ex_pass = True
-                    
+
                     # what to do with the last element?
                     range = '[0 - %s' % (range_backward(width),)
                     gs.append({'name': 'Незачет', 'marker': False, 'bg': backgrounds[len(gs)], 'range': range})
-                %>                
-                
+                %>
+
                 <div class="digit-b">
                     <div class="digit-b-item-label">Набрано</div>
                     <div class="digit-b-item" style="color: ${bg_earned};">${score_proc}%</div>
@@ -127,10 +127,10 @@ if 'level_grade' in grade_summary:
                         <div class="digit-b-pass" style="color: ${bg_earned};">${label_earned}</div>
                     %endif
                 </div>
-            
+
                 <div class="row">
                     <br>
-                   
+
                     <div class="col-md-12 text-left">
                         <div id="main-progress-bar-striped-version2">
                             <div class="grade-bar">
@@ -158,7 +158,7 @@ if 'level_grade' in grade_summary:
                                 <div id="main-progress-bar-version2" class="progress-bar progress-bar-info" role="progressbar"
                                     aria-valuenow="${score_proc}" aria-valuemin="0" aria-valuemax="100" style="width: ${reverse_score_proc}%">
                                 </div>
-                                
+
                             </div>
                             <div class="progress-legend pull-right">
                                 %for item in reversed(gs):
@@ -172,8 +172,7 @@ if 'level_grade' in grade_summary:
                         </div>
                     </div>
                 </div>
-                
-                
+
                 ##%if certificate_data:
                 ##oleg2106 we don't use it
                 %if false:
@@ -276,7 +275,7 @@ if 'level_grade' in grade_summary:
                 for ch in course.children:
                     course_chapters.append(ch.to_deprecated_string())
                 %>
-                
+
                 <section class="chapters">
                     %for key, chapter in enumerate(courseware_summary):
                         %if not chapter['display_name'] == "hidden":
@@ -285,20 +284,20 @@ if 'level_grade' in grade_summary:
                             chapter_percent = 0
                             chapter_weight  = 0
                             progress_sections = {}
-                            
+
                             # check the appeal
                             appeal = False
                             if chapter['display_name'].strip().lower() == u"апелляция":
                                 appeal = True
-                            
+
                             for section in chapter['sections']:
                                 #we show only graded appeal
                                 if appeal and section.all_total.first_attempted is None:
                                     break
-                            
+
                                 if len(section.problem_scores.values()) > 0:
                                     show_chapter = True
-                                    
+
                                     #let's count total score and weight for chapter and sections inside of it
                                     if section.format is not None and section.format in grade_summary['grade_breakdown']:
                                         earned = section.all_total.earned
@@ -307,7 +306,7 @@ if 'level_grade' in grade_summary:
                                         _section_weight  = 0
                                         _section_percent = 0
                                         _section_dropped = False
-                                        
+
                                         for s in grade_summary['section_breakdown']:
                                             if 'url_name' in s and s['url_name'] == section.url_name:
                                                 _section_weight  = s['weight']
@@ -315,7 +314,7 @@ if 'level_grade' in grade_summary:
                                                 if 'dropped' in s and s['dropped']:
                                                     _section_dropped = True
                                                 break
-                                        
+
                                         _level_grade_percent = float(earned/total) if earned > 0 and total > 0 else 0
                                         if _level_grade_percent >= 0.7:
                                             _level_grade_text = u'Зачтено'
@@ -325,7 +324,7 @@ if 'level_grade' in grade_summary:
                                         if not _section_dropped:
                                             chapter_percent += _section_percent
                                             chapter_weight  += _section_weight
-                                        
+
                                         progress_sections[section.url_name] = {
                                             'percent': _section_percent, 'weight': _section_weight,
                                             'level_grade': _level_grade_text, 'section_dropped': _section_dropped
@@ -339,7 +338,7 @@ if 'level_grade' in grade_summary:
                                             <div class="chapter_item_box chapter_title" id="chapter_${loop.index}">
                                                 %if not appeal:
                                                     <input type="checkbox" id="box_${loop.index}" ${'checked="checked"' if not key and level_grade else ''}>
-                                                    <label for="box_${loop.index}"><span class="chapter_display_name">${chapter['display_name']}</span></label>
+                                                    <label for="box_${loop.index}"><span class="chapter_display_name">${chapter['display_name'].replace(u'&nbsp;',u'\u00a0')}</span></label>
                                                     <div class="chapter_score">
                                                         %if not level_grade and chapter_weight:
                                                             ${("Набрано {earned} из {total}").format(earned='{0:.1%}'.format(chapter_percent), total='{0:.1%}'.format(chapter_weight)) | h}
@@ -351,7 +350,7 @@ if 'level_grade' in grade_summary:
                                                                 earned = section.all_total.earned
                                                                 total = section.all_total.possible
                                                             %>
-                                                        
+
                                                             <div class="row">
                                                                 %if len(section.problem_scores.values()) > 0:
                                                                     <div class="col-12 ml-sm-auto col-sm-9">
