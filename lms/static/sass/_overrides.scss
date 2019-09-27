@@ -4,6 +4,9 @@ $seq_arrow_width: 50px;
 $seq_arrow_margin: $seq_arrow_width + 30px;
 $fill_bg: #fff;
 
+// main content block width
+$max_width: 1180px;
+
 /* MAIN section */
 html body {
     padding-top: $header_height;
@@ -34,7 +37,7 @@ body .content-wrapper .container {
     width: 100% !important;
     background-color: $fill_bg;
     border-bottom: $header_border;
-    text-align: left;    
+    text-align: left;
 }
 
 
@@ -116,20 +119,19 @@ body .wrapper-course-material .course-tabs li a, .wrapper-course-material .cours
 /* CONTENT section */
 /* course page styles */
 
-/* fixed sequence-nav in seq_module.html*/
+/* fixed sequence-nav in seq_module.html */
 .xmodule_display.xmodule_SequenceModule .sequence-nav.fixed {
     position: fixed;
-    top: $header_height;
     left: 0;
     width: 100%;
     height: auto;
     z-index: 100;
-    background-color: $fill_bg;    
+    background-color: $fill_bg;
     margin: 0;
-}
 
-.xmodule_display.xmodule_SequenceModule .sequence-nav.fixed ol li button {
-    height: 25px;
+    ol li button {
+        height: 25px;
+    }
 }
 /* -- end -- */
 

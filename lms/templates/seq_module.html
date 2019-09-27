@@ -69,18 +69,19 @@
 
 ## fixed sequence-nav
 <script type="text/javascript">
-    var seqnavHeight;
-
-    function topSeqNavFixed(){
-        if ($(window).scrollTop() > seqnavHeight) {
-            $('.sequence-nav').addClass('fixed');
-        } else {
-            $('.sequence-nav').removeClass('fixed');
-        }
-    }
-
     (function () {
-        seqnavHeight = $('.sequence-nav').offset().top;
+        var navHeight = $('.course-material').height();
+        var sequence_navOffset = $('.sequence-nav').offset().top;
+        var sequence_nav_init_fixed = sequence_navOffset - navHeight;
+
+        var topSeqNavFixed = function () {
+            if ($(window).scrollTop() > sequence_nav_init_fixed) {
+                $('.sequence-nav').addClass('fixed').css({ top: navHeight + 'px' });
+            } else {
+                $('.sequence-nav').removeClass('fixed');
+            }
+        }
+
         $(window).bind('scroll', function(){
             topSeqNavFixed();
         });

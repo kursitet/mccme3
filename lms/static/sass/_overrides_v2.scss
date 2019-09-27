@@ -120,6 +120,11 @@ label {
 
 
 /* CONTENT section */
+// fix for "course info" fixed menu with many additional custom pages
+body #content .wrapper-course-material .course-material {
+    max-width: $max_width;
+}
+
 .course-outline .block-tree .section ol.outline-item {
     margin-left: 40px;
 }
