@@ -203,8 +203,12 @@ from pipeline_mako import render_require_js_path_overrides
 
         var adjustLocation = function () {
             sequence_navHeight = Number($('.sequence-nav').height());
-            let scr_value = $(window.location.hash).offset().top - (navHeight + sequence_navHeight);
+            // escape meta-characters (https://api.jquery.com/category/selectors/) except #
+            // $& means finded symbol
+            let hash_shield = window.location.hash.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+            let scr_value = $(hash_shield).offset().top - (navHeight + sequence_navHeight);
             $(window).scrollTop(scr_value);
+            //console.log('adjust to ' + String(scr_value));
         }
 
         var topMenuFixed = function () {
@@ -234,6 +238,10 @@ from pipeline_mako import render_require_js_path_overrides
         }
 
         $(document).ready(function () {
+            ## if anchor exists scroll and trigger our topMenuFixed func
+            if (window.location.hash) {
+                $(window).scrollTop(0);
+            }
             $(window).on('load', function () {
                 $(window).on('scroll', function(){
                     topMenuFixed();
