@@ -201,7 +201,7 @@ from pipeline_mako import render_require_js_path_overrides
         var old_location, new_location;
         var sequence_navHeight;
 
-        var adjustLocation = function () {
+        const adjustLocation = function () {
             sequence_navHeight = Number($('.sequence-nav').height());
             // escape meta-characters (https://api.jquery.com/category/selectors/) except #
             // $& means finded symbol
@@ -211,7 +211,7 @@ from pipeline_mako import render_require_js_path_overrides
             //console.log('adjust to ' + String(scr_value));
         }
 
-        var topMenuFixed = function () {
+        const topMenuFixed = function () {
             if ($(window).scrollTop() > course_material_init_fixed) {
                 $('.course-material').addClass('fixed');
                 $('#global-navigation').addClass('topheader-free');
