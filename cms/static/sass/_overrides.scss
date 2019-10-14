@@ -3,6 +3,22 @@
     width: 60%;
 }
 
+/* http://redmine.sgdev.xyz/issues/14585 */
+.xblock .xblock h2 {
+    text-transform: none;
+}
+
+.xmodule_display.xmodule_HtmlModule h2 {
+    font-size: 1.5em;
+}
+
+.wrapper-xblock .xblock-render .xblock .xblock-render .xblock,
+.xmodule_display.xmodule_HtmlModule {
+    h3 {
+      font-size: 1.2em;
+    }
+}
+// --- end
 
 /* Let's make dialog window wider */
 /* Modal full height */

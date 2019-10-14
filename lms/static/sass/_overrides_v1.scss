@@ -59,6 +59,11 @@ body .xmodule_display.xmodule_CapaModule div.problem div p.answer::before {
     font-size: inherit;
 }
 
+/* http://redmine.sgdev.xyz/issues/14585 */
+.xmodule_display.xmodule_HtmlModule h2 {
+    font-size: 1.5em !important;
+}
+
 /* PROGRESS section */
 .digit-b {
     font-size: 3.5em;
