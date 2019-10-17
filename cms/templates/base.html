@@ -14,21 +14,14 @@ from openedx.core.djangolib.js_utils import (
 )
 %>
 
-## oleg2106: favicon issue
+## @happyblitz: define right image's folder based on the platform
 <%
-kpn = settings.MKTG_URLS.get('KURSITET_PLATFORM_NAME', 'kursitet').lower()
-if kpn == 'sirius':
-    favicon = 'images/sirius'
-elif kpn == 'sirius_test':
-    favicon = 'images/sirius_test'
-elif kpn == 'olimpiada':
-    favicon = 'images/olimpiada'
-elif kpn == 'olimpiada_test':
-    favicon = 'images/olimpiada_test'
-elif kpn == 'kursitet_test':
-    favicon = 'images/kursitet_test'    
+if settings.KURSITET_PLATFORM_NAME == 'kpk':
+    folder = 'images/olimpiada_test' if settings.MKTG_URLS.get('TEST_PLATFORM', "").lower() in ("1", "true") else 'images/olimpiada'
+elif settings.KURSITET_PLATFORM_NAME == 'sirius':
+    folder = 'images/sirius_test' if settings.MKTG_URLS.get('TEST_PLATFORM', "").lower() in ("1", "true") else 'images/sirius'
 else:
-    favicon = 'images/kursitet'
+    folder = 'images/kursitet_test' if settings.MKTG_URLS.get('TEST_PLATFORM', "").lower() in ("1", "true") else 'images/kursitet'
 %>
 
 <%page expression_filter="h"/>
@@ -57,13 +50,13 @@ else:
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="path_prefix" content="${EDX_ROOT_URL}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="${static.url(favicon)}/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="${static.url(favicon)}/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="${static.url(favicon)}/favicon-16x16.png">
-    <link rel="manifest" href="${static.url(favicon)}/site.webmanifest">
-    <link rel="mask-icon" href="${static.url(favicon)}/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="${static.url(folder)}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="${static.url(folder)}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="${static.url(folder)}/favicon-16x16.png">
+    <link rel="manifest" href="${static.url(folder)}/site.webmanifest">
+    <link rel="mask-icon" href="${static.url(folder)}/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">    
+    <meta name="theme-color" content="#ffffff">
     
     <%static:css group='style-vendor'/>
     <%static:css group='style-vendor-tinymce-content'/>
