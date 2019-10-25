@@ -45,6 +45,16 @@ div.info-wrapper section.handouts .action-show-bookmarks {
     display: block;
 }
 
+// http://redmine.sgdev.xyz/issues/14498
+.xmodule_display.xmodule_SequenceModule .sequence-nav ol li button .sequence-tooltip.sequence-tooltip-left {
+    right: initial;
+    left: 0;
+
+    &:after {
+        left: 18px;
+        right: initial;
+    }
+}
 
 /* CONTENT xmodule */
 body .xmodule_display.xmodule_CapaModule .problem .inputtype.option-input {

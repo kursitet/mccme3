@@ -31,7 +31,7 @@
             id="tab_${idx}">
             <span class="icon fa seq_${item['type']}" aria-hidden="true"></span>
             <span class="fa fa-fw fa-bookmark bookmark-icon ${"is-hidden" if not item['bookmarked'] else "bookmarked"}" aria-hidden="true"></span>
-            <div class="sequence-tooltip sr"><span class="sr">${item['type']}&nbsp;</span>${item['page_title']}<span class="sr bookmark-icon-sr">&nbsp;${_("Bookmarked") if item['bookmarked'] else ""}</span></div>
+            <div class="sequence-tooltip sr"><span class="sr">${item['type']}&nbsp;</span><span class="tooltip_text">${item['page_title']}</span><span class="sr bookmark-icon-sr">&nbsp;${_("Bookmarked") if item['bookmarked'] else ""}</span></div>
           </button>
         </li>
         % endfor
@@ -83,6 +83,21 @@
         seqnavHeight = $('.sequence-nav').offset().top;
         $(window).bind('scroll', function(){
             topSeqNavFixed();
+        });
+    }());
+</script>
+
+## oleg2106 http://redmine.sgdev.xyz/issues/14498
+## fix tooltip position
+<script type="text/javascript">
+    (function () {
+        $(document).ready(function () {
+            var maxWidth = $("#main").offset().left;
+            $(".sequence-tooltip").each(function(index, element) {
+                if ($(element).find(".tooltip_text").width() > ($(element).offset().left - maxWidth)) {
+                    $(element).addClass("sequence-tooltip-left");
+                }
+            });
         });
     }());
 </script>
