@@ -4,6 +4,11 @@ $seq_arrow_width: 50px;
 $seq_arrow_margin: $seq_arrow_width + 30px;
 $fill_bg: #fff;
 
+/* Убираем границу вокруг ссылок  */
+a, a:hover, a:active, a:focus {
+    outline: 0;
+}
+
 /* MAIN section */
 html body {
     padding-top: $header_height;
@@ -48,42 +53,47 @@ body .content-wrapper .container {
     width: 100%;
     line-height: 1.4;
     z-index: 10;
-}
 
-#global-navigation .wrapper-header {
-    padding: 0;
-    height: $header_height;
-    line-height: $header_height;
-}
+    .wrapper-header {
+        padding: 0;
+        height: $header_height;
+        line-height: $header_height;
 
-#global-navigation .course-header-wrapper {
-    display: table;
-    height: $header_height;
-}
+        a.user-logout,
+        a.user-logout:visited {
+            color: #6b6b6b;
+            font-size: 1.5em;
+        }
 
-#global-navigation .wrapper-header .course-header {
-    float: none;
-    display: table-cell;
-    vertical-align: middle;
-    margin: 0;
-    width: auto;
-    font-size: 0.75rem;
-    line-height: 1.4;
-}
+        .course-header {
+            float: none;
+            display: table-cell;
+            vertical-align: middle;
+            margin: 0;
+            width: auto;
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+    }
 
-#global-navigation .logo {
-    margin: 0 10px 0 0;
-}
+    .course-header-wrapper {
+        display: table;
+        height: $header_height;
+    }
 
-#global-navigation .logo img {
-    height: 40px;
-    margin: 0;
-}
+    .logo {
+        margin: 0 10px 0 0;
 
-#global-navigation .doc-link {
-    display: none;
-}
+        img {
+            height: 40px;
+            margin: 0;
+        }
+    }
 
+    .doc-link {
+        display: none;
+    }
+}
 
 /* COURSE TABS section */
 body #content .wrapper-course-material {
@@ -136,7 +146,7 @@ body .wrapper-course-material .course-tabs li a, .wrapper-course-material .cours
     width: $seq_arrow_width;
     height: $seq_arrow_width;
 }
-    
+
 .seq-arrow .fa{
     color: #212b2b;
     font-size: 1.3rem;
