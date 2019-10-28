@@ -48,7 +48,7 @@
 html {
     font-size: 1em;
     font-style: normal;
-    line-height: 1em;    
+    line-height: 1em;
 }
 
 select{
@@ -70,20 +70,20 @@ label {
     text-align: center;
 }
 
-
 /* HEADER section */
-#global-navigation .dropdown-menu{
-    line-height: 1;
-}
+.dropdown-menu-container .menu-title {
+    vertical-align: top;
+    text-decoration: none;
+    line-height: $header_height;
 
-.dropdown-menu-container .menu-button {
-    margin: 0;
+    &:hover {
+      color: #065683;
+    }
 }
-
 
 /* INFO section */
 .wrapper-preview-menu {
-    padding: 0;    
+    padding: 0;
 }
 
 .wrapper-preview-menu .preview-menu {

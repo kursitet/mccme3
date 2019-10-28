@@ -58,14 +58,8 @@ else:
             <span class="sr-only">${_("Dashboard for:")}</span>
             <span class="label-username">${label_name}</span>
         </a>
-        <div role="group" aria-label="User menu" class="user-menu">
-            <button type="button" class="menu-button button-more has-dropdown js-dropdown-button" aria-expanded="false" aria-controls="${_("Usermenu")}">
-                  <span class="icon fa fa-caret-down" aria-hidden="true"></span>
-                  <span class="sr-only">${_("Usermenu dropdown")}</span>
-            </button>
-            <ul class="dropdown-menu list-divided is-hidden" id="${_("Usermenu")}" tabindex="-1">
-                <li class="dropdown-item item has-block-link"><a href="${reverse('logout')}" role="menuitem" class="action dropdown-menuitem">${_("Sign Out")}</a></li>
-            </ul>
+        <div class="user-menu">
+            <a href="${reverse('logout')}" role="menuitem" class="user-logout" title="выйти"><i class="fa fa-sign-out"></i></a>
         </div>
     </div>
 % else:
