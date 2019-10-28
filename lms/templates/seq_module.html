@@ -31,11 +31,11 @@
               id="tab_${idx}">
               <span class="icon fa seq_${item['type']}" aria-hidden="true"></span>
               <span class="fa fa-fw fa-bookmark bookmark-icon ${"is-hidden" if not item['bookmarked'] else "bookmarked"}" aria-hidden="true"></span>
-              <div class="sequence-tooltip sr">
-                  <span class="sr">${item['type']}&nbsp;</span>
-                  <span class="tooltip_text">${item['page_title'].replace(u'&nbsp;',u'\u00a0')}</span>
-                  <span class="sr bookmark-icon-sr">&nbsp;${_("Bookmarked") if item['bookmarked'] else ""}</span>
-              </div>
+              ## struggle with Whitespace only
+              <div class="sequence-tooltip sr"><span
+                  class="sr">${item['type']}&nbsp;</span><span
+                  class="tooltip_text">${item['page_title'].replace(u'&nbsp;',u'\u00a0')}</span><span
+                  class="sr bookmark-icon-sr">&nbsp;${_("Bookmarked") if item['bookmarked'] else ""}</span></div>
           </button>
         </li>
         % endfor
