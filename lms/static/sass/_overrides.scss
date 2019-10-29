@@ -44,6 +44,11 @@ body .content-wrapper .container {
 
 
 /* HEADER section */
+// http://redmine.sgdev.xyz/issues/14439
+body #content .wrapper-course-material .course-material {
+    height: auto !important;
+}
+
 #global-navigation {
     position: fixed;
     top: 0;
