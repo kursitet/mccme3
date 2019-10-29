@@ -9,6 +9,9 @@ a, a:hover, a:active, a:focus {
     outline: 0;
 }
 
+// main content block width
+$max_width: 1180px;
+
 /* MAIN section */
 html body {
     padding-top: $header_height;
@@ -127,20 +130,19 @@ body .wrapper-course-material .course-tabs li a, .wrapper-course-material .cours
 /* CONTENT section */
 /* course page styles */
 
-/* fixed sequence-nav in seq_module.html*/
+/* fixed sequence-nav in seq_module.html */
 .xmodule_display.xmodule_SequenceModule .sequence-nav.fixed {
     position: fixed;
-    top: $header_height;
     left: 0;
     width: 100%;
     height: auto;
     z-index: 100;
-    background-color: $fill_bg;    
+    background-color: $fill_bg;
     margin: 0;
-}
 
-.xmodule_display.xmodule_SequenceModule .sequence-nav.fixed ol li button {
-    height: 25px;
+    ol li button {
+        height: 25px;
+    }
 }
 /* -- end -- */
 
