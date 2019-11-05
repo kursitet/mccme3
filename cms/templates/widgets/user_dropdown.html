@@ -30,10 +30,10 @@
               </li>
               % if kursitet_url:
                   <li class="dropdown-item item has-block-link">
-                    <a href="${kursitet_url}">Курситет</a>
+                    <a href="${kursitet_url}">Главная страница Домена</a>
                   </li>
                   <li class="dropdown-item item has-block-link">
-                    <a href="${kursitet_url}dashboard">Курситет - ЛК</a>
+                    <a href="${kursitet_url}dashboard">Личный Кабинет</a>
                   </li>
               % endif
           </%block>
@@ -60,19 +60,19 @@
         </li>
         % if kursitet_url:
             <li class="nav-item nav-account-dashboard">
-              <a href="${kursitet_url}">Курситет</a>
+              <a href="${kursitet_url}">Главная страница Домена</a>
             </li>
             <li class="nav-item nav-account-dashboard">
-              <a href="${kursitet_url}dashboard">Курситет - ЛК</a>
+              <a href="${kursitet_url}dashboard">Личный Кабинет</a>
             </li>
         % endif
         % if GlobalStaff().has_user(user):
         % if kursitet_url:
             <li class="nav-item">
-              <a href="${kursitet_url}admin">Курситет - Админ</a>
+              <a href="${kursitet_url}admin">Панель Администратора</a>
             </li>
             <li class="nav-item">
-              <a href="${kursitet_url}staff">Курситет - Персонал</a>
+              <a href="${kursitet_url}staff">Панель Персонала</a>
             </li>
         % endif
         <li class="nav-item">
