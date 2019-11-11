@@ -80,9 +80,9 @@
 
         var topSeqNavFixed = function () {
             if ($(window).scrollTop() > sequence_nav_init_fixed) {
-                $('.sequence-nav').addClass('fixed').css({ top: navHeight + 'px' });
+                $('.sequence-nav').addClass('fixed').css("top", navHeight);
             } else {
-                $('.sequence-nav').removeClass('fixed');
+                $('.sequence-nav').removeClass('fixed').css("top", "");
             }
         }
 
