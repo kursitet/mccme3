@@ -79,7 +79,7 @@
         var sequence_nav_init_fixed = sequence_navOffset - navHeight;
 
         var topSeqNavFixed = function () {
-            if ($(window).scrollTop() > sequence_nav_init_fixed) {
+            if ($('.course-material').css('position') == 'fixed' && $(window).scrollTop() > sequence_nav_init_fixed) {
                 $('.sequence-nav').addClass('fixed').css("top", navHeight);
             } else {
                 $('.sequence-nav').removeClass('fixed').css("top", "");
