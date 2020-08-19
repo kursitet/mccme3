@@ -61,3 +61,9 @@
 .CodeMirror-code span.cm-tab {
     background: red;
 }
+
+/* Broken Google Docs xblock editor fix */
+div.google-edit-wrapper.is-active {
+    height: 80vh;
+}
+
